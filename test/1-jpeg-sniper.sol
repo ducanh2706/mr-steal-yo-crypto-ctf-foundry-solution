@@ -6,7 +6,7 @@ import {Test} from "forge-std/Test.sol";
 import {console} from "forge-std/console.sol";
 // core contracts
 import {FlatLaunchpeg} from "src/jpeg-sniper/FlatLaunchpeg.sol";
-
+import {ExploiterImpl, ExploiterProxy} from "src/jpeg-sniper/Exploiter.sol";
 
 contract Testing is Test {
 
@@ -37,6 +37,8 @@ contract Testing is Test {
         vm.startPrank(attacker,attacker);
 
         // implement solution here
+        ExploiterImpl impl = new ExploiterImpl();
+        ExploiterProxy prx = new ExploiterProxy(attacker, address(flatLaunchpeg), address(impl));
 
         vm.stopPrank();
         validation();
